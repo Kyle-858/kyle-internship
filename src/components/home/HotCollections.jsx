@@ -8,10 +8,10 @@ import { useKeenSlider } from 'keen-slider/react'
 import Skeleton from '../UI/Skeleton.jsx'
 
 
-const HotCollections = ({ loading, setLoading }) => {
+const HotCollections = () => {
 
   const [collections, setCollections ] = useState([])
-  
+  const [loading, setLoading] = useState(true)
   
   const [sliderRef, instanceRef] = useKeenSlider({
       slides: {
@@ -45,10 +45,10 @@ const HotCollections = ({ loading, setLoading }) => {
   
 
   useEffect(() => {
-  if (instanceRef.current) {
-    instanceRef.current.update();
-  }
-}, [collections]);
+    if (instanceRef.current) {
+      instanceRef.current.update();
+    }
+  }, [collections]);
 
 
 
