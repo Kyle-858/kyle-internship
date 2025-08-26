@@ -3,10 +3,21 @@ import { Link } from "react-router-dom";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import nftImage from "../../images/nftImage.jpg";
 import axios from 'axios'
+import 'keen-slider/keen-slider.min.css'
+import { useKeenSlider } from 'keen-slider/react'
+
 
 const HotCollections = () => {
 
   const [collections, setCollections] = useState([])
+  const [sliderRef, instanceRef] = useKeenSlider({
+      slides: {
+        perView: 4,
+        spacing: 15,
+      },
+      loop: true,
+      
+    })
 
   useEffect(() => {
     const fetchCollections = async () => {
@@ -33,8 +44,9 @@ const HotCollections = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
+          <div ref={sliderRef} className="keen-slider">
           {collections?.map(collection => 
-            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={collection.id}>
+            <div className="keen-slider__slide col-lg-3 col-md-6 col-sm-6 col-xs-12" key={collection.id}>
               <div className="nft_coll">
                 <div className="nft_wrap">
                   <Link to="/item-details">
@@ -56,6 +68,7 @@ const HotCollections = () => {
               </div>
             </div>
           )}
+          </div>
         </div>
       </div>
     </section>
