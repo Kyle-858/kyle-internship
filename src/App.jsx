@@ -5,24 +5,19 @@ import Author from "./pages/Author";
 import ItemDetails from "./pages/ItemDetails";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
-import { useState, useEffect } from 'react'
-import axios from 'axios'
 
 function App() {
 
-  
-  const [loading, setLoading] = useState(true)
-
-  
+  //added to trigger PR
 
   return (
     <Router>
       <Nav />
       <Routes>
-        <Route path="/" element={<Home loading={loading} setLoading={setLoading}/>} />
+        <Route path="/" element={<Home />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/author" element={<Author />} />
-        <Route path="/item-details/:id" element={<ItemDetails loading={loading} setLoading={setLoading}/>} />
+        <Route path="/item-details" element={<ItemDetails />} />
       </Routes>
       <Footer />
     </Router>
