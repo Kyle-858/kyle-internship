@@ -6,7 +6,7 @@ import LandingIntro from "../components/home/LandingIntro";
 import NewItems from "../components/home/NewItems";
 import TopSellers from "../components/home/TopSellers";
 
-const Home = ({ loading, setLoading }) => {
+const Home = () => {
 
   
 
@@ -20,7 +20,7 @@ const Home = ({ loading, setLoading }) => {
         <div id="top"></div>
         <Landing />
         <LandingIntro />
-        <HotCollections loading={loading} setLoading={setLoading}/>
+        <HotCollections/>
         <NewItems />
         <TopSellers />
         <BrowseByCategory />
