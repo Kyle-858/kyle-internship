@@ -10,29 +10,46 @@ const Author = () => {
   const { authorId } = useParams()
   const [author, setAuthor] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [followers, setFollowers] = useState('')
+  const [following, setFollowing] = useState(false)
 
   useEffect(() => {
     const fetchAuthor = async () => {
       setLoading(true)
-      const res = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`)
+      try {const res = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`)
       const data = res.data
       setAuthor(data)
+      setFollowers(author?.followers)
+      } catch (err) {
+        console.error(err)
+      }
       setLoading(false)
     }
     fetchAuthor()
-  })
+  }, [])
+
+  function toggleFollow() {
+    if (following === true) {
+      setFollowing(false)
+      setFollowers(followers - 1)
+    } else {
+      setFollowing(true)
+      setFollowers(followers + 1)
+    }
+  }
 
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
         <div id="top"></div>
 
+        loading ? '' : 
         <section
           id="profile_banner"
           aria-label="section"
           className="text-light"
           data-bgimage="url(images/author_banner.jpg) top"
-          style={{ background: `url(images/AuthorBanner}) top` }}
+          style={{ background: `url(${AuthorBanner}) top` }}
         ></section>
 
         <section aria-label="section">
@@ -48,9 +65,9 @@ const Author = () => {
                       <div className="profile_name">
                         <h4>
                           {author?.authorName}
-                          <span className="profile_username">@monicaaaa</span>
+                          <span className="profile_username">{author?.tag}</span>
                           <span id="wallet" className="profile_wallet">
-                            UDHUHWudhwd78wdt7edb32uidbwyuidhg7wUHIFUHWewiqdj87dy7
+                            {author?.address}
                           </span>
                           <button id="btn_copy" title="Copy Text">
                             Copy
@@ -61,10 +78,14 @@ const Author = () => {
                   </div>
                   <div className="profile_follow de-flex">
                     <div className="de-flex-col">
-                      <div className="profile_follower">573 followers</div>
-                      <Link to="#" className="btn-main">
+                      <div className="profile_follower">{followers} followers</div>
+                      {following === true ? <Link to="#" className="btn-main" onClick={() => toggleFollow()}>
+                        Unfollow
+                      </Link> 
+                      : <Link to="#" className="btn-main" onClick={() => toggleFollow()}>
                         Follow
-                      </Link>
+                      </Link> 
+                      }
                     </div>
                   </div>
                 </div>
