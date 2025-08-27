@@ -35,12 +35,13 @@ const HotCollections = () => {
           const res = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections`)
           const data = res.data
           setCollections(data)
+          setLoading(false)
         } catch (error) {
           console.error(error)
         }
       }
       fetchCollections()
-      setLoading(false)
+      
     }, [])
   
 
@@ -88,7 +89,7 @@ const HotCollections = () => {
                   </Link>
                 </div>
                 <div className="nft_coll_pp">
-                  <Link to="/author">
+                  <Link to={`/author/${collection.authorId}`}>
                     <img className="lazy pp-coll" src={collection.authorImage} alt="" />
                   </Link>
                   <i className="fa fa-check"></i>
