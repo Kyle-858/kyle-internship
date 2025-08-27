@@ -97,7 +97,7 @@ const HotCollections = () => {
                   <Link to="/explore">
                     <h4>{collection.title}</h4>
                   </Link>
-                  <span>{collection.nftId}</span>
+                  <span>{collection.code}</span>
                 </div>
               </div>
             </div>

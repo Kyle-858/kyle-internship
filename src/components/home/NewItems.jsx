@@ -6,6 +6,7 @@ import axios from 'axios'
 import Skeleton from '../UI/Skeleton.jsx'
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/react'
+import TimeToCountDown from '../TimeToCountDown.jsx'
 
 
 const NewItems = () => {
@@ -29,15 +30,7 @@ const NewItems = () => {
       }
       })
 
-      function timeToCountDown(time) {
-        const timeLeft = time - Date.now()
-        const sec = Math.floor(timeLeft / 1000)
-        const min = Math.floor(sec / 60)
-        const hour = Math.floor(min / 60)
-        return (
-          hour + 'H' + (min % 60) + 'M' + (sec % 60) + 'S'
-        )
-      }
+      
 
   useEffect(() => {
     const fetchNewItems = async () => {
@@ -88,7 +81,7 @@ const NewItems = () => {
                     <i className="fa fa-check"></i>
                   </Link>
                 </div>
-                {newItem.expiryDate === null ? '' : <div className="de_countdown">{timeToCountDown(newItem.expiryDate)}</div>}
+                {newItem.expiryDate === null ? '' : <TimeToCountDown targetTime={newItem.expiryDate}/>}
 
                 <div className="nft__item_wrap">
                   <div className="nft__item_extra">
