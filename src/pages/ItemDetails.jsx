@@ -42,7 +42,7 @@ const ItemDetails = () => {
             <div className="row">
               <div className="col-md-6 text-center">
                 {loading ? 
-                  <Skeleton width="100%" height="200px" borderRadius="8px" />
+                  <Skeleton width="100%" height="100%" borderRadius="8px" />
                 : <img
                   src={nft.nftImage}
                   className="img-fluid img-rounded mb-sm-30 nft-image"
@@ -51,38 +51,36 @@ const ItemDetails = () => {
               </div>
               <div className="col-md-6">
                 <div className="item_info">
-                  <h2>{nft?.title} #194</h2>
+                  {loading ? <Skeleton height="48px" width="448px" borderRadius="8px"/> : <h2>{nft.title} #{nft.tag}</h2>}
 
                   <div className="item_info_counts">
                     <div className="item_info_views">
                       <i className="fa fa-eye"></i>
-                      100
+                      {nft.views}
                     </div>
                     <div className="item_info_like">
                       <i className="fa fa-heart"></i>
-                      74
+                      {nft.likes}
                     </div>
                   </div>
-                  <p>
-                    doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
-                    illo inventore veritatis et quasi architecto beatae vitae
-                    dicta sunt explicabo.
-                  </p>
+                  {loading ? <Skeleton height="100px" width="448px" borderRadius="8px"/> : <p>
+                    {nft.description}
+                  </p>}
                   <div className="d-flex flex-row">
-                    <div className="mr40">
+                    {loading ? <div className="mr40"><Skeleton height="68px" width="448px" borderRadius="8px"/></div> : <div className="mr40">
                       <h6>Owner</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to="/author">
-                            <img className="lazy" src={AuthorImage} alt="" />
+                          <Link to={`/author/${nft.ownerId}`}>
+                            <img className="lazy" src={nft.ownerImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to="/author">Monica Lucas</Link>
+                          <Link to={`/author/${nft.ownerId}`}>{nft.ownerName}</Link>
                         </div>
                       </div>
-                    </div>
+                    </div>}
                     <div></div>
                   </div>
                   <div className="de_tab tab_simple">
@@ -90,13 +88,13 @@ const ItemDetails = () => {
                       <h6>Creator</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to="/author">
-                            <img className="lazy" src={AuthorImage} alt="" />
+                          <Link to={`/author/${nft.creatorId}`}>
+                            <img className="lazy" src={nft.creatorImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to="/author">Monica Lucas</Link>
+                          <Link to={`/author/${nft.creatorId}`}>{nft.creatorName}</Link>
                         </div>
                       </div>
                     </div>
@@ -104,7 +102,7 @@ const ItemDetails = () => {
                     <h6>Price</h6>
                     <div className="nft-item-price">
                       <img src={EthImage} alt="" />
-                      <span>1.85</span>
+                      {loading ? <Skeleton height="68px" width="448px" borderRadius="8px"/> : <span>{nft.price}</span>}
                     </div>
                   </div>
                 </div>
