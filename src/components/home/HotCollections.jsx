@@ -27,7 +27,7 @@ const HotCollections = () => {
         slides: { perView: 1, spacing: 5 }
       }
     }
-    })
+  })
 
     useEffect(() => {
       const fetchCollections = async () => {
@@ -35,13 +35,14 @@ const HotCollections = () => {
           const res = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections`)
           const data = res.data
           setCollections(data)
+          setLoading(false)
         } catch (error) {
           console.error(error)
         }
       }
       fetchCollections()
-      setLoading(false)
-    }, [])
+      
+    })
   
 
   useEffect(() => {
@@ -62,10 +63,9 @@ const HotCollections = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          <div ref={sliderRef} className="keen-slider">
           {loading ? Array(4).fill(null).map((_, index) => (
-            <div className="keen-slider__slide" key={index}>
-              <div className="nft_coll">
+              <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+              <div className="nft_coll" key={index}>
                 <div className="nft_wrap">
                   <Skeleton width="100%" height="200px" borderRadius="8px" />
                 </div>
@@ -78,31 +78,32 @@ const HotCollections = () => {
                   <Skeleton width="40%" height="16px" borderRadius="4px" />
                 </div>
               </div>
-            </div>
-          )) : collections.map(collection => 
-            <div className="keen-slider__slide col-lg-3 col-md-6 col-sm-6 col-xs-12" key={collection.id}>
-              <div className="nft_coll">
-                <div className="nft_wrap">
-                  <Link to={`/item-details/${collection.id}`}>
-                    <img src={collection.nftImage} className="lazy img-fluid" alt="" />
-                  </Link>
-                </div>
-                <div className="nft_coll_pp">
-                  <Link to="/author">
-                    <img className="lazy pp-coll" src={collection.authorImage} alt="" />
-                  </Link>
-                  <i className="fa fa-check"></i>
-                </div>
-                <div className="nft_coll_info">
-                  <Link to="/explore">
-                    <h4>{collection.title}</h4>
-                  </Link>
-                  <span>{collection.code}</span>
-                </div>
               </div>
-            </div>
-          )}
-          </div>
+          )) : (<div ref={sliderRef} className="keen-slider">
+            {collections.map(collection => 
+              (<div className="keen-slider__slide col-lg-3 col-md-6 col-sm-6 col-xs-12" key={collection.id}>
+                <div className="nft_coll">
+                  <div className="nft_wrap">
+                    <Link to={`/item-details/${collection.id}`}>
+                      <img src={collection.nftImage} className="lazy img-fluid" alt="" />
+                    </Link>
+                  </div>
+                  <div className="nft_coll_pp">
+                    <Link to={`/author/${collection.authorId}`}>
+                      <img className="lazy pp-coll" src={collection.authorImage} alt="" />
+                    </Link>
+                    <i className="fa fa-check"></i>
+                  </div>
+                  <div className="nft_coll_info">
+                    <Link to="/explore">
+                      <h4>{collection.title}</h4>
+                    </Link>
+                    <span>{collection.code}</span>
+                  </div>
+                </div>
+              </div>)
+            )}
+          </div>)}
         </div>
       </div>
     </section>

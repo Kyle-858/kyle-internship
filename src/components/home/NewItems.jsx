@@ -15,20 +15,20 @@ const NewItems = () => {
   const [loading, setLoading] = useState(true)
 
   const [sliderRef, instanceRef] = useKeenSlider({
-        slides: {
-          perView: 4,
-          spacing: 15,
-        },
-        loop: true,
-        breakpoints: {
-        "(max-width: 1024px)": {
-          slides: { perView: 2, spacing: 10 },
-        },
-        "(max-width: 600px)": {
-          slides: { perView: 1, spacing: 5 }
-        }
+      slides: {
+        perView: 4,
+        spacing: 15,
+      },
+      loop: true,
+      breakpoints: {
+      "(max-width: 1024px)": {
+        slides: { perView: 2, spacing: 10 },
+      },
+      "(max-width: 600px)": {
+        slides: { perView: 1, spacing: 5 }
       }
-      })
+    }
+  })
 
       
 
@@ -38,12 +38,12 @@ const NewItems = () => {
         const res = await axios.get("https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems")
         const data = res.data
         setNewItems(data)
+        setLoading(false)
       } catch (error) {
         console.error(error)
       }
     }
     fetchNewItems()
-    setLoading(false)
   })
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const NewItems = () => {
               <div className="nft__item">
                 <div className="author_list_pp">
                   <Link
-                    to="/author"
+                    to={`/author/${newItem.authorId}`}
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                     title="Creator: Monica Lucas"
