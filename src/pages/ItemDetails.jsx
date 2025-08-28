@@ -1,16 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import EthImage from "../images/ethereum.svg";
 import { Link, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 import nftImage from "../images/nftImage.jpg";
 import Skeleton from '../components/UI/Skeleton.jsx'
+import axios from "axios";
 
 
-const ItemDetails = ({ collections, setCollections, loading, setLoading }) => {
+const ItemDetails = () => {
 
-  const id  = useParams()
-  const collection = collections.find((collection) => collection.nftId === id);
+  const { nftId } = useParams()
+  const [nft, setNft] = useState([])
+  const [loading, setLoading] = useState(true)
 
+  useEffect(() => {
+    const fetchNft = async () => {
+      setLoading(true)
+      try {
+        const res = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`)
+        const data = res.data
+        setNft(data)
+        console.log(nft)
+      } catch (err) {
+        console.error(err)
+      } 
+      setLoading(false)
+    }
+    fetchNft()
+  }, [])
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -27,14 +44,14 @@ const ItemDetails = ({ collections, setCollections, loading, setLoading }) => {
                 {loading ? 
                   <Skeleton width="100%" height="200px" borderRadius="8px" />
                 : <img
-                  src={collection.nftImage}
+                  src={nft.nftImage}
                   className="img-fluid img-rounded mb-sm-30 nft-image"
                   alt=""
                 />}
               </div>
               <div className="col-md-6">
                 <div className="item_info">
-                  <h2>Rainbow Style #194</h2>
+                  <h2>{nft?.title} #194</h2>
 
                   <div className="item_info_counts">
                     <div className="item_info_views">
